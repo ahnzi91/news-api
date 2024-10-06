@@ -7,8 +7,17 @@ $menus.forEach((menu) => menu.addEventListener("click", (event) => getNewsByCate
 
 let url = new URL(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`);
 
+// For pagenation
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
+
 const getNews = async () => {
   try {
+    url.searchParams.set("page", page); // &page를 위한
+    url.searchParams.set("pageSize", pageSize); // &pageSize
+
     const response = await fetch(url);
     const data = await response.json();
     if (response.status === 200) {
@@ -16,7 +25,9 @@ const getNews = async () => {
         throw new Error("No result for this search.");
       }
       newsList = data.articles;
+      totalResults = data.totalResults;
       render();
+      paginationRender();
     } else {
       throw new Error(data.message);
     }
@@ -75,6 +86,46 @@ const errorRender = (errorMessage) => {
     </div>
   `;
   document.getElementById("newsBoard").innerHTML = errorHTML;
+};
+
+const paginationRender = () => {
+  // totalResult
+  // page
+  // pageSize
+  // groupSize (페이지 몇 개씩 보여줄지)
+
+  // totalPages
+  const totalPages = Math.ceil(totalResults / pageSize);
+
+  // pageGroup (몇 번째 그룹에 속해있는지)
+  // page / gruopSize 의 값을 올림해줘야 한다.
+  const pageGroup = Math.ceil(page / groupSize);
+
+  // lastPage
+  // lastPage 그룹이 gropSize보다 작으면 -> lastPage = totalPage;
+  let lastPage = pageGroup * groupSize;
+  if (lastPage > totalPages) {
+    lastPage = totalPages;
+  }
+
+  // firstPage
+  const firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+
+  let paginationHTML = ``;
+
+  for (let i = firstPage; i <= lastPage; i++) {
+    paginationHTML += `<li class="page-item ${
+      i === page ? "active" : ""
+    }" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
+  }
+
+  document.querySelector(".pagination").innerHTML = paginationHTML;
+};
+
+const moveToPage = (pageNumber) => {
+  console.log("move to page", pageNumber);
+  page = pageNumber;
+  getNews();
 };
 
 getLatestNews();
