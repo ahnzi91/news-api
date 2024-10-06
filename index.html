@@ -14,6 +14,10 @@
   </head>
   <body>
     <section class="container">
+      <div class="search-news">
+        <input type="text" id="searchInput" />
+        <button type="button" onclick="getNewsByKeyword()">Search</button>
+      </div>
       <section>
         <div class="head-line">
           <svg viewBox="0 0 184 25" fill="#000" aria-hidden="true">
@@ -23,30 +27,16 @@
           </svg>
         </div>
         <div class="menus">
-          <button>Business</button>
-          <button>Entertainment</button>
-          <button>General</button>
-          <button>Health</button>
-          <button>Science</button>
-          <button>Sports</button>
-          <button>Technology</button>
+          <button type="button">Business</button>
+          <button type="button">Entertainment</button>
+          <button type="button">General</button>
+          <button type="button">Health</button>
+          <button type="button">Science</button>
+          <button type="button">Sports</button>
+          <button type="button">Technology</button>
         </div>
       </section>
-      <section id="newsBoard">
-        <!-- <div class="row news">
-          <div class="col-lg-4">
-            <img
-              class="news-img"
-              src="https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202409/27/fourfourtwo/20240927145505803tgwy.jpg"
-            />
-          </div>
-          <div class="col-lg-8">
-            <h2>반니스텔루이, 맨체스터 유나이티드 코치 합류</h2>
-            <p>맨체스터 유나이티드의 전설 반니스텔루이가 코치진에 전격 합류했다.</p>
-            <div>SBS * 2024-10-05</div>
-          </div>
-        </div> -->
-      </section>
+      <section id="newsBoard"></section>
     </section>
 
     <script
